@@ -14,14 +14,14 @@ const app = express()
 const port = process.env.PORT || 3000
 app.post('/api/webhook', express.raw({ type: 'application/json' }), catchError((req, res) => {
   const sig = req.headers['stripe-signature'].toString()
+  let event = stripe.webhooks.constructEvent(req.body, sig, "whsec_XdRxm4HvyuNx8ccedonlrBjk15hXYvnM");
 
-  let event = stripe.webhooks.constructEvent(req.rawBody, sig, "whsec_hStpWsvVUTKapGxpq42Q8r2GJkJgv1ae");
   let checkout
-  if (event.type === 'checkout.session.completed') {
+  if (event.type == 'checkout.session.completed') {
     checkout = event.data.object;
-    console.log('Checkout Session completed:', checkout);
+    
   }
-  res.status(200).json({ received: true, checkout });
+  res.status(200).json({ message: "Success", checkout });
 }));
 
 app.use(cors())
