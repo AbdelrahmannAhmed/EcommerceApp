@@ -21,7 +21,7 @@ app.post('/api/webhook', express.raw({ type: 'application/json' }), catchError((
     checkout = event.data.object;
 
   }
-  res.status(200).json({ message: "Success", data: checkout });
+  res.json({ message: "Success", data: checkout });
 }));
 
 app.use(cors())
